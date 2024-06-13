@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:10:14 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:18:37 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:31:04 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <unistd.h>
+
+typedef struct s_server
+{
+	char	*msg;
+	char	c;
+	int		byte_len;
+}	t_server;
 
 void	mt_putc(char c);
 void	mt_putnbr(int n);

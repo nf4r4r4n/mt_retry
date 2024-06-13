@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:38:04 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:27:14 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:34:02 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 #include <signal.h>
 #include <unistd.h>
 
+t_server g_server = (t_server){.msg = NULL, .c = 0, .byte_len = 0};
+
 static void	mt_server(int sig)
 {
-	static char	*str = NULL;
-	static char	c = 0;
-	static int	byte_len = 0;
-
-	if (byte_len == 8)
-		c = 0;
+	if (g_server.byte_len == 8)
+		g_server.c = 0;
 	if (sig == SIGUSR2)
-		c |= 1;
-	if (byte_len > 1)
-		c <<= 1;
-	byte_len--;
-	if (byte_len == 0)
+		g_server.c |= 1;
+	if (g_server.byte_len > 1)
+		g_server.c <<= 1;
+	g_server.byte_len--;
+	if (g_server.byte_len == 0)
 	{
-		byte_len = 8;
-		if (c == 0)
+		g_server.byte_len = 8;
+		if (g_server.c == 0)
 		{
 			// print the message
 			return ;
