@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:38:04 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:34:02 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:47:21 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ static void	mt_server(int sig)
 		if (g_server.c == 0)
 		{
 			// print the message
+			mt_puts(g_server.msg);
+			mt_puts("\n");
 			return ;
 		}
 		// join character into str
+		g_server.msg = mt_strappend(g_server.msg, g_server.c);
 	}
 }
 
@@ -47,7 +50,9 @@ static void	mt_handle_interrupt(int sig)
 
 int	main(void)
 {
+	mt_puts("Server PID -> ");
 	mt_putnbr((int)getpid());
+	mt_puts("\n");
 	signal(SIGUSR1, &mt_server);
 	signal(SIGUSR2, &mt_server);
 	signal(SIGINT, &mt_handle_interrupt);

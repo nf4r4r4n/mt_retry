@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:37:39 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:20:06 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:46:35 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,19 @@ static void	mt_handle_args(int argc, char **argv)
 		}
 }
 
-static void	mt_client(int pid, char *msg)
+static int	mt_client(int pid, char *msg)
 {
 	int	i;
 
 	i = 0;
 	while (msg[i])
-		mt_send_char(pid, msg[i++]);
+	{
+		if (!mt_send_char(pid, msg[i]))
+			return (0);
+		i++;
+	}
 	mt_send_char(pid, 0);
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -48,5 +53,6 @@ int	main(int argc, char **argv)
 	mt_handle_args(argc, argv);
 	pid = mt_atoi(argv[1]);
 	msg = argv[2];
-	mt_client(pid, msg);
+	if (!mt_client(pid, msg))
+		return (mt_puts("Error while sending message\n"), 1);
 }

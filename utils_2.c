@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 17:07:40 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:18:13 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:44:52 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	mt_atoi(const char *n)
 	return (result * sign);
 }
 
-void	mt_send_char(int pid, int c)
+int	mt_send_char(int pid, int c)
 {
 	int	mask;
 	int	byte_flag;
@@ -46,11 +46,45 @@ void	mt_send_char(int pid, int c)
 	while (byte_flag)
 	{
 		if (c & mask)
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				return (0);
+		}
 		else
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1) == -1)
+				return (0);
+		}
 		usleep(100);
 		byte_flag--;
 		mask >>= 1;
 	}
+	return (1);
+}
+
+char	*mt_strappend(char *str, char c)
+{
+	char	*append;
+	int		i;
+	int		j;
+
+	if (!str)
+		append = (char *)malloc(sizeof(char) * 2);
+	else
+		append = (char *)malloc(sizeof(char) * (mt_strlen(str) + 2));
+	if (!append)
+	{
+		if (str)
+			return (str);
+		return (NULL);
+	}
+	i = -1;
+	j = 0;
+	while (str[++i])
+		append[j++] = str[i];
+	if (str)
+		free(str);
+	append[j++] = c;
+	append[j] = 0;
+	return (append);
 }

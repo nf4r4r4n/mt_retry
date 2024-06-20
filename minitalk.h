@@ -6,7 +6,7 @@
 /*   By: nfararan <marvin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:10:14 by nfararan          #+#    #+#             */
-/*   Updated: 2024/06/13 17:31:04 by nfararan         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:44:40 by nfararan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ size_t	mt_strlen(const char *s);
 void	mt_puts(const char *s);
 int		mt_isdigit(char c);
 int		mt_atoi(const char *n);
-void	mt_send_char(int pid, int c);
+int		mt_send_char(int pid, int c);
+char	*mt_strappend(char *str, char c);
 
 #endif
